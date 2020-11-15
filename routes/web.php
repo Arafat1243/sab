@@ -16,10 +16,17 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('home');
 });
-Route::get('/test', function () {
-    return view('layouts.layout');
-});
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return Inertia\Inertia::render('Dashboard');
-})->name('dashboard');
+Route::prefix('admin')->middleware(['auth:sanctum', 'verified'])->group(function () {
+
+    // dashboard
+    Route::get('/',[\App\Http\Controllers\DashboardController::class,'index'])->name('dashboard');
+
+    // service
+    Route::resource('service',\App\Http\Controllers\ServiceController::class);
+    Route::get('permanent/{model}',function($model){
+        if($model === 'service'){
+            \App\Http\Controllers\ServiceController::permanentDelete();
+        }
+    });
+});

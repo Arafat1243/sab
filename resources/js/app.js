@@ -6,10 +6,22 @@ import { InertiaApp } from '@inertiajs/inertia-vue';
 import { InertiaForm } from 'laravel-jetstream';
 import PortalVue from 'portal-vue';
 
-Vue.mixin({ methods: { route } });
+Vue.mixin({
+    methods: {
+        route: (name, params, absolute) => route(name, params, absolute, Ziggy),
+        isRoute(...routes) {
+            return routes.some(route => this.route().current(route));
+        }
+    },
+});
 Vue.use(InertiaApp);
 Vue.use(InertiaForm);
 Vue.use(PortalVue);
+
+Vue.component('Pagination', () =>
+    import ('@/Jetstream/Pagination'));
+Vue.component('Icon', () =>
+    import ('@/Jetstream/Icon'));
 
 const app = document.getElementById('app');
 

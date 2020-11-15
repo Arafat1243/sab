@@ -10,10 +10,10 @@
                 <div class="feature-icon"><i class="lni lni-cog"></i></div>
             </div>
             <a href="#" class="font-bold feature-item-title">Lorem, ipsum.</a>
-            <div class="text-gray-600 text-justify">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit sed don eiusmod tempor enim minim veniam quis
-                notrud
-                exercitation
+            <div class="text-gray-600 text-justify max-h-24 overflow-hidden">
+                {{substr('Lorem ipsum dolor sit amet consectetur adipisicing elit sed don eiusmod tempor enim minim veniam quis
+                notrud Lorem ipsum dolor sit amet consectetur, adipisicing elit. Similique, eius!
+                exercitation',0,130)}} .....
             </div>
         </div>
         <div class="feature-item w-full md:w-2/5 lg:w-1/4 flex flex-col justify-center items-center">
