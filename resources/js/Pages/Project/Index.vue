@@ -3,10 +3,10 @@
     <template #header>
       <div class="flex justify-between items-center">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-          Services Management
+          Projects Management
         </h2>
         <inertia-link
-          :href="route('service.create')"
+          :href="route('project.create')"
           class="inline-flex items-center bg-indigo-500 text-white py-1 px-2 rounded text-xl shadow"
         >
           <icon name="plus" aclass="text-white mr-1"></icon>
@@ -22,7 +22,7 @@
               <thead>
                 <tr>
                   <th class="px-4 py-2">#</th>
-                  <th class="px-4 py-2">Service Name</th>
+                  <th class="px-4 py-2">Project Name</th>
                   <th class="px-4 py-2">Image</th>
                   <th class="px-4 py-2">Discraption</th>
                   <th class="px-4 py-2">Status</th>
@@ -31,50 +31,50 @@
               </thead>
               <tbody>
                 <tr
-                  v-for="(service, i) in services.data"
-                  :key="service.id"
+                  v-for="(project, i) in projects.data"
+                  :key="project.id"
                   :class="{ 'bg-gray-100': i % 2 !== 0 }"
                 >
                   <td class="border px-4 py-2">
                     {{ i + 1 }}
                   </td>
                   <td class="border px-4 py-2">
-                    {{ service.title }}
+                    {{ project.title }}
                   </td>
                   <td class="border px-4 py-2">
                     <div
                       class="w-16 h-16 object-cover bg-cover bg-center bg-no-repeat rounded-full"
                       :style="
-                        'background-image: url(' + service.image_url + ')'
+                        'background-image: url(' + project.image_url + ')'
                       "
                     ></div>
                   </td>
                   <td
                     class="border px-4 py-2"
-                    v-html="service.discraption.substring(0, 150) + '...'"
+                    v-html="project.discraption.substring(0, 150) + '...'"
                   ></td>
                   <td class="border px-4 py-2">
-                    <div class="rounded-3xl text-white px-2 py-1 text-center" :class="service.deleted_at !== null ? 'bg-red-500' : 'bg-indigo-500'">
-                      {{service.deleted_at !== null ? 'Deactivate' : 'Active'}}
+                    <div class="rounded-3xl text-white px-2 py-1 text-center" :class="getStatus(project.status,project.deleted_at).color">
+                      {{getStatus(project.status,project.deleted_at).text}}
                     </div>
                   </td>
                   <td class="border px-4 py-2">
                     <div class="flex justify-around items-center">
 
-                      <inertia-link v-if="service.deleted_at" preserveScroll :href="route('service.restore',service.id)" class="bg-transparent mx-1 focus:outline-none">
+                      <inertia-link v-if="project.deleted_at" preserveScroll :href="route('project.restore',project.id)" class="bg-transparent mx-1 focus:outline-none">
                         <icon name="restore"></icon>
                       </inertia-link>
                       <div class="flex justify-around items-center" v-else>
-                        <inertia-link :href="route('service.show',service.id)" class="bg-transparent mx-1 focus:outline-none">
+                        <inertia-link :href="route('project.show',project.id)" class="bg-transparent mx-1 focus:outline-none">
                           <icon name="eye"></icon>
                         </inertia-link>
-                        <inertia-link :href="route('service.edit',service.id)" class="bg-transparent mx-1 focus:outline-none">
+                        <inertia-link :href="route('project.edit',project.id)" class="bg-transparent mx-1 focus:outline-none">
                           <icon name="edit"></icon>
                         </inertia-link>
                       </div>
                       <button
                           class="bg-transparent mx-1 focus:outline-none"
-                          @click="deleteItem = service.id"
+                          @click="deleteItem = project.id"
                         >
                           <icon name="delete"></icon>
                         </button>
@@ -86,10 +86,10 @@
           </div>
           <!-- Delete Token Confirmation Modal -->
           <jet-confirmation-modal :show="deleteItem" @close="deleteItem = null">
-            <template #title> Delete Service </template>
+            <template #title> Delete Project </template>
 
             <template #content>
-              Are you sure want to delete this Service?
+              Are you sure want to delete this Project?
             </template>
 
             <template #footer>
@@ -99,7 +99,7 @@
 
               <jet-danger-button
                 class="ml-2"
-                @click.native="deleteService"
+                @click.native="deleteproject"
                 :class="{ 'opacity-25': form.processing }"
                 :disabled="form.processing"
               >
@@ -108,9 +108,9 @@
             </template>
           </jet-confirmation-modal>
           <pagination
-            v-if="services.total > 20"
-            :links="services.links"
-            :total="services.total"
+            v-if="projects.total > 20"
+            :links="projects.links"
+            :total="projects.total"
           />
         </div>
       </div>
@@ -138,19 +138,35 @@ export default {
     };
   },
   props: {
-    services: Object,
+    projects: Object,
   },
   methods: {
-    deleteService() {
+    deleteproject() {
       // console.log(this.deleteItem);
       if(this.deleteItem){
-        this.form.delete(this.route('service.destroy',this.deleteItem),{
+        this.form.delete(this.route('project.destroy',this.deleteItem),{
            preserveScroll: true,
         })
             .then((res)=>{
             }).catch(err => console.log(err))
       }
     },
+    getStatus(status, deleted_at){
+      let content = {};
+      if(deleted_at !== null){
+        content.color = 'bg-red-500';
+        content.text = 'Deactivate';
+      }else{
+        if(status){
+          content.color = 'bg-indigo-500';
+          content.text = 'Completed';
+        }else{
+          content.color = 'bg-yellow-500';
+          content.text = 'Ongoing';
+        }
+      }
+      return content;
+    }
   },
   components: {
     AppLayout,

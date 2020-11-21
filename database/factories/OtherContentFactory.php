@@ -2,17 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\Service;
+use App\Models\OtherContent;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class ServiceFactory extends Factory
+class OtherContentFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Service::class;
+    protected $model = OtherContent::class;
 
     /**
      * Define the model's default state.
@@ -22,9 +22,12 @@ class ServiceFactory extends Factory
     public function definition()
     {
         return [
-            'title' => $this->faker->jobTitle,
-            'image' => 'service-image/hero-image-1.jpg',
-            'discraption' => $this->faker->text
+            //
+            'employee' => 300,
+            'client' => 300,
+            'whatweare' => $this->faker->text,
+            'image' => 'storege/ceo_img.jpg',
+            'about' => $this->faker->text
         ];
     }
 }

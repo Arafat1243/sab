@@ -29,43 +29,36 @@
             <x-service-section id="service" class="section"></x-service-section>
             <!-- end service section -->
             <!-- counter up section -->
-            <x-count-section id="counter-up" class="section"></x-count-section>
+            <x-count-section :other="$other" id="counter-up" class="section"></x-count-section>
             <!-- end counter up section -->
             <!-- what we do section -->
-            <x-what-we-do-section id="what-we-do" class="section"></x-what-we-do-section>
+            <x-what-we-do-section :other="$other" id="what-we-do" class="section"></x-what-we-do-section>
             <!-- end what we do section -->
             <!-- latest work section -->
             <x-latest-work-section id="latest-work" class="section"></x-latest-work-section>
             <!-- end latest work section -->
             <!-- about section -->
-            <x-about-section id="about" class="section"></x-about-section>
+            <x-about-section :other="$other" id="about" class="section"></x-about-section>
             <!-- end abount section -->
-            <!-- contact section -->
-            <x-contact-section id="contact" class="section"></x-contact-section>
-            <!-- end contact section -->
-            <!-- footer section -->
-            <x-footer-section id="footer" class="section"></x-footer-section>
-            <!-- end section -->
         </div>
+        <!-- contact section -->
+        <x-contact-section id="contact" class="section"></x-contact-section>
+        <!-- end contact section -->
+        <!-- footer section -->
+        <x-footer-section id="footer" class="section"></x-footer-section>
+        <!-- end section -->
     </div>
     <!-- Scripts -->
     <script src="{{ mix('js/app.js') }}"></script>
     <script src="{{mix('js/counter.js')}}"></script>
     <script src="{{asset('storage/qrcode.min.js')}}"></script>
     <script>
+        let heroInterval = '';
         $(document).ready(function(){
             // navbar toggle function
             $('#menu-toggle').on('click',function(){
                 $('#collaps-menu').toggleClass(['hidden','active']);
             });
-            // on scroll change navbar color
-            $(window).on('scroll',function(){
-                if($(window).scrollTop()){
-                    $('#lg-nav').addClass(['lg:bg-gray-100','lg:text-black'])
-                }else{
-                    $('#lg-nav').removeClass(['lg:bg-gray-100','lg:text-black'])
-                }
-            })
             // latest work slide
             $('#myRange').attr('max',$('.slider-item').length - 3)
             $('#myRange').on('input change', function(){
@@ -106,7 +99,7 @@
                     $('#section-container').removeClass(['absolute' ,'inset-0','overflow-hidden']);
                         $('#section-container').addClass(['w-full' ,'h-screen']);
                         let count = 0
-                        const hero = setInterval(() => {
+                        heroInterval = setInterval(() => {
                             if(count >= ($('.hero-image').attr('data-img').split(',').length - 1)){
                                 count = 0;
                             }else{
@@ -137,14 +130,30 @@
                         scrollTop: dest
                     }, 2000, 'swing');
                     hashTagActive = this.hash;
+                    $('.section-ancor .nav-link').removeClass('active');
+                    $(this).addClass('active')
                 }
+            });
+
+            $('.feature-item .feature-item-title').on('click',function(e){
+                e.preventDefault()
+                $(this).parent().next().addClass('active')
             });
         });
         // hero slide
         function heroSlide(count){
             // console.log(count);
-            const imgset = $('.hero-image').attr('data-img').split(',')[count]
-            $('.hero-image').css('background-image','url('+imgset+')');
+            let imgset = JSON.parse($('.hero-image').attr('data-img'))[count];
+            if(imgset == undefined){
+                clearInterval(heroInterval)
+            }
+            else{
+                $('.hero-image').css('background-image','url('+imgset+')');
+            }
+        }
+
+        function closeModal(){
+            $('.modal').removeClass('active')
         }
     </script>
 </body>

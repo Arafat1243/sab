@@ -40,7 +40,7 @@
                 </div>
             </form>
         </div>
-        <div class="w-44 h-44 flex justify-center items-center my-5">
+        <div class="w-44 h-44 flex justify-center items-center my-7 lg:my-5">
             <div id="qrcode"></div>
         </div>
         <div class="w-full mt-2">
@@ -50,7 +50,7 @@
                 tabindex="0"></iframe>
         </div>
         <div class="mt-3 social-info w-full flex flex-col justify-center items-center h-56"
-            style="background-image: url({{asset('storage/hero-image-1.jpg')}})">
+            style="background-image: url({{asset('storage/other-image/hero-image-1.jpg')}})">
             <h4 class="text-xl text-gray-400 capitalize">Find us on</h4>
             <div class="mt-3 flex justify-center items-center">
                 <a href="#" class="social-btn">

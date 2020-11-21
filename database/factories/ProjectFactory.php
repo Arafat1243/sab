@@ -2,17 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\Service;
+use App\Models\Project;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class ServiceFactory extends Factory
+class ProjectFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Service::class;
+    protected $model = Project::class;
 
     /**
      * Define the model's default state.
@@ -23,8 +23,9 @@ class ServiceFactory extends Factory
     {
         return [
             'title' => $this->faker->jobTitle,
-            'image' => 'service-image/hero-image-1.jpg',
-            'discraption' => $this->faker->text
+            'discraption' => $this->faker->text,
+            'status' => random_int(0,1),
+            'image' => 'project-image/hero-image-1.jpg'
         ];
     }
 }

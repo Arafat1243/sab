@@ -7,25 +7,7 @@
     <div class="my-7 px-10 flex flex-wrap justify-around items-center">
         <img class="w-full lg:w-2/5 object-cover" src="{{asset('storage/sab_logo.png')}}" alt="" srcset="">
         <div class="w-full lg:w-2/5 mt-7 lg:mt-0 text-justify">
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestiae, ut quas ab accusantium ex quo quidem
-            enim, eaque
-            mollitia saepe, officia hic voluptatum dicta aperiam perspiciatis asperiores officiis excepturi quia.
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis quis nam id mollitia esse eius ut sed laborum
-            animi ab
-            hic quos fuga, aut eveniet libero nemo officia quas in.
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam minus aliquam, in, fugiat necessitatibus
-            commodi facilis
-            pariatur consectetur eveniet, consequatur sunt unde officia aliquid cupiditate odit ipsum vel aperiam
-            architecto?
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat, dolorum sequi consectetur earum tempora
-            repellendus
-            eaque nisi incidunt doloremque explicabo adipisci eos impedit laborum sapiente eum laudantium voluptatum
-            neque nobis?
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Illum ut quos totam necessitatibus quibusdam
-            harum,
-            voluptatibus quisquam quod omnis nostrum eaque error doloribus, ipsum commodi provident dignissimos.
-            Laborum, culpa
-            adipisci?
+            {!! $whatweare!!}
         </div>
     </div>
 </section>

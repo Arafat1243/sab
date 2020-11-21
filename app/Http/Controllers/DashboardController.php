@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\OtherContent;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -23,6 +24,7 @@ class DashboardController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index(){
-        return Inertia::render('Dashboard');
+        $others = OtherContent::first();
+        return Inertia::render('Dashboard',compact('others'));
     }
 }

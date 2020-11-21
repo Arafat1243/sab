@@ -14,6 +14,12 @@ module.exports = {
                 sans: ['Nunito', ...defaultTheme.fontFamily.sans],
             },
         },
+        maxHeight: {
+            '80': '25rem',
+        },
+        minHeight: {
+            '80': '30rem'
+        }
     },
 
     variants: {

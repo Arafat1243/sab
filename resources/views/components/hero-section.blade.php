@@ -1,6 +1,6 @@
 <section {{$attributes->merge(['class' => 'hero relative'])}}>
-    <div class="hero-image absolute inset-0" style="background-image: url({{asset('storage/hero-image-1.jpg')}})"
-        data-img="{{asset('storage/hero-image-2.png')}},{{asset('storage/hero-image-1.jpg')}},{{asset('storage/hero-image-3.jpg')}}">
+    <div class="hero-image absolute inset-0" style="background-image: url({{count($hero) > 0 ? $hero[0] : asset('storage/other-image/hero-image-1.jpg')}})"
+        data-img='{!! json_encode($hero) !!}'>
         <samp class="uppercase text-white mt-20 text-xl small-text">we are oscend</samp>
         <h1 class="uppercase font-bold text-white my-2 text-xl md:text-3xl middle-text">flexible & universal</h1>
         <h5 class="lowercase italic text-white bottom-text">for all your business needs</h5>

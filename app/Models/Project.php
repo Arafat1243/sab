@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
 
-class Service extends Model
+class Project extends Model
 {
     use HasFactory, SoftDeletes;
 
@@ -17,7 +17,7 @@ class Service extends Model
      * @var array
      */
     protected $fillable = [
-        'title','discraption'
+        'title','discraption','status'
     ];
 
     /**

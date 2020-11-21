@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\OtherContent;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,7 +15,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('home');
+    $other = OtherContent::first();
+    return view('home',compact('other'));
 });
 
 Route::prefix('admin')->middleware(['auth:sanctum', 'verified'])->group(function () {
@@ -24,9 +26,16 @@ Route::prefix('admin')->middleware(['auth:sanctum', 'verified'])->group(function
 
     // service
     Route::resource('service',\App\Http\Controllers\ServiceController::class);
-    Route::get('permanent/{model}',function($model){
-        if($model === 'service'){
-            \App\Http\Controllers\ServiceController::permanentDelete();
-        }
+    Route::get('service-restore/{id}',[\App\Http\Controllers\ServiceController::class,'restore'])->name('service.restore');
+
+    // Project
+    Route::resource('project',\App\Http\Controllers\ProjectController::class);
+    Route::get('project-restore/{id}',[\App\Http\Controllers\ProjectController::class,'restore'])->name('project.restore');
+
+    Route::name('update-')->group(function(){
+        Route::put('empolyee', [\App\Http\Controllers\OtherContentController::class,'empolyee'])->name('empolyee');
+        Route::put('client', [\App\Http\Controllers\OtherContentController::class,'client'])->name('client');
+        Route::put('whatweare', [\App\Http\Controllers\OtherContentController::class,'whatweare'])->name('whatweare');
+        Route::put('about', [\App\Http\Controllers\OtherContentController::class,'about'])->name('about');
     });
 });

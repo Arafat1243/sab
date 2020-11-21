@@ -7,6 +7,8 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\UrlWindow;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Session;
+use Inertia\Inertia;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -18,6 +20,12 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         $this->registerLengthAwarePaginator();
+        Inertia::share([
+            'toast' => function(){
+               return Session::get('toast');
+            },
+            'popstate' => false
+        ]);
     }
 
     /**

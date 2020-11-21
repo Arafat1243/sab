@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Service;
+use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 use Inertia\Inertia;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\Exception\NoFileException;
 use Throwable;
 
-class ServiceController extends Controller
+class ProjectController extends Controller
 {
+
     /**
      * Create a new controller instance.
      *
@@ -30,8 +32,8 @@ class ServiceController extends Controller
     public function index()
     {
         //
-        $services = Service::orderBy('created_at','DESC')->withTrashed()->paginate(20);
-        return Inertia::render('Service/Index',compact('services'));
+        $projects = Project::orderBy('created_at','DESC')->withTrashed()->paginate(20);
+        return Inertia::render('Project/Index',compact('projects'));
     }
 
     /**
@@ -42,7 +44,7 @@ class ServiceController extends Controller
     public function create()
     {
         //
-        return Inertia::render('Service/Create');
+        return Inertia::render('Project/Create');
     }
 
     /**
@@ -54,23 +56,24 @@ class ServiceController extends Controller
     public function store(Request $request)
     {
         //
-        $validedata = $request->validateWithBag('Createservice', [
+        $validedata = $request->validateWithBag('CreateProject', [
             'title' => ['required','max:250'],
             'image' => ['required','file','image','max:4096'],
-            'discraption' => ['required']
+            'discraption' => ['required'],
+            'status' => Rule::in(0)
         ],[
             'image.max' => 'The image size may not be greater than 4 MB.'
         ]);
         try{
             $validedata['image'] = '';
-            $service = new Service($validedata);
-            if($service->save()){
-                $this->updateImage($request->image,$service);
-                return back()->with('toast',['message' => 'Service added Successful.', 'success' => true]);
+            $project = new Project($validedata);
+            if($project->save()){
+                $this->updateImage($request->image,$project);
+                return back()->with('toast',['message' => 'Project Created Success.', 'success' => true]);
             }
         }catch(Throwable $err){
             if(app()->environment() === 'production'){
-                return back()->with('toast',['message' => 'Error to add this Service.', 'success' => true]);
+                return back()->with('toast',['message' => 'Error to add this Project.', 'success' => false]);
             }
             dd($err->getMessage());
         }
@@ -79,60 +82,64 @@ class ServiceController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Service  $service
+     * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function show(Service $service)
+    public function show(Project $project)
     {
         //
-        return Inertia::render('Service/Show',compact('service'));
+        return Inertia::render('Project/Show',compact('project'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Service  $service
+     * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function edit(Service $service)
+    public function edit(Project $project)
     {
         //
-        return Inertia::render('Service/Create',compact('service'));
+        return Inertia::render('Project/Create',compact('project'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Service  $service
+     * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Service $service)
+    public function update(Request $request, Project $project)
     {
         //
+        // dd($project);
         if($request->hasFile('image')){
-            $validedata = $request->validateWithBag('Createservice', [
+            $validedata = $request->validateWithBag('CreateProject', [
                 'title' => ['required','max:250'],
                 'image' => ['required','file','image','max:4096'],
-                'discraption' => ['required']
+                'discraption' => ['required'],
+                'status' => Rule::in([0,1])
             ],[
                 'image.max' => 'The image size may not be greater than 4 MB.'
             ]);
             // dd($validedata);
-             $service->title = $validedata['title'];
-             $this->updateImage($validedata['image'],$service);
-             $service->discraption = $validedata['discraption'];
+             $project->title = $validedata['title'];
+             $this->updateImage($validedata['image'],$project);
+             $project->discraption = $validedata['discraption'];
         }else{
-            $validedata = $request->validateWithBag('Createservice', [
+            $validedata = $request->validateWithBag('CreateProject', [
                 'title' => ['required','max:250'],
-                'discraption' => ['required']
+                'discraption' => ['required'],
+                'status' => Rule::in([0,1])
             ]);
-            $service->title = $validedata['title'];
-            $service->discraption = $validedata['discraption'];
+            $project->title = $validedata['title'];
+            $project->discraption = $validedata['discraption'];
+            $project->status = $validedata['status'];
         }
         try{
-            if($service->save()){
-                return back()->with('toast',['message' => 'Service Update Successful.', 'success' => true]);
+            if($project->save()){
+                return back()->with('toast',['message' => 'Project Update Successful.', 'success' => true]);
             }
         }catch(Throwable $err){
             if(app()->environment() === 'production'){
@@ -146,44 +153,44 @@ class ServiceController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Service  $service
+     * @param  \App\Models\Project  $Project
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
         //
         try{
-            $service = Service::withTrashed()->findOrFail($id);
-            // dd($service);
-            if($service->deleted_at != null){
-                if($this->deleteImage($service->image) && $service->forceDelete())
-                    return back()->with('toast',['message' => 'Service permanently deleted successfully.', 'success' => true]);
+            $project = Project::withTrashed()->findOrFail($id);
+            // dd($Project);
+            if($project->deleted_at != null){
+                if($this->deleteImage($project->image) && $project->forceDelete())
+                    return back()->with('toast',['message' => 'Project permanently deleted successfully.', 'success' => true]);
             }else{
-                $service->delete();
-                return back()->with('toast',['message' => 'Service temporary deleted successfully.', 'success' => true]);
+                $project->delete();
+                return back()->with('toast',['message' => 'Project temporary deleted successfully.', 'success' => true]);
             }
         }catch(Throwable $err){
             if(app()->environment() === 'production'){
-                return back()->with('toast',['message' => 'Error to Delete this Service.', 'success' => false]);
+                return back()->with('toast',['message' => 'Error to Delete this Project.', 'success' => false]);
             }
             dd($err->getMessage());
         }
     }
 
     /**
-     * Delete Service permanent
+     * restore Project
      * @return void
      */
     public function restore($id){
         try{
-            $service = Service::withTrashed()->findOrFail($id);
-            // dd($service);
-            if($service->restore()){
-                return back()->with('toast',['message' => 'Service Restore Successful.', 'success' => true]);
+            $project = Project::withTrashed()->findOrFail($id);
+            // dd($Project);
+            if($project->restore()){
+                return back()->with('toast',['message' => 'Project Restore Successful.', 'success' => true]);
             }
         }catch(Throwable $err){
             if(app()->environment() === 'production'){
-                return back()->with('toast',['message' => 'Error ot restore this Service.', 'success' => false]);
+                return back()->with('toast',['message' => 'Error ot restore this Project.', 'success' => false]);
             }
             dd($err->getMessage());
         }
@@ -193,22 +200,22 @@ class ServiceController extends Controller
      * update image.
      *
      * @param  \Illuminate\Http\UploadedFile  $image
-     * @param  $service
+     * @param  $Project
      * @return string
      */
-    protected function updateImage(UploadedFile $image, $service){
+    protected function updateImage(UploadedFile $image, $project){
         try{
             // dd($image);
-            $previous = $service->image;
-            $service->image = $image->storePublicly('service-image', ['disk' => 'public']);
-            if($service->save()){
+            $previous = $project->image;
+            $project->image = $image->storePublicly('project-image', ['disk' => 'public']);
+            if($project->save()){
                 if($previous){
                     $this->deleteImage($previous);
                 }
             }else{
-                $this->deleteImage($service->image);
-                $service->image = $previous;
-                $service->save();
+                $this->deleteImage($project->image);
+                $project->image = $previous;
+                $project->save();
             }
         }
         catch(Throwable $err){
@@ -229,6 +236,6 @@ class ServiceController extends Controller
         if(Storage::disk('public')->delete($url)){
             return true;
         }
-        throw new FileException('File not Found.');
+        throw new NoFileException('File not Found.');
     }
 }

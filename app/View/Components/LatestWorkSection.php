@@ -2,10 +2,12 @@
 
 namespace App\View\Components;
 
+use App\Models\Project;
 use Illuminate\View\Component;
 
 class LatestWorkSection extends Component
 {
+    public $project;
     /**
      * Create a new component instance.
      *
@@ -14,6 +16,7 @@ class LatestWorkSection extends Component
     public function __construct()
     {
         //
+        $this->project = Project::orderBy('created_at','DESC')->limit(10)->get(['id','image']);
     }
 
     /**

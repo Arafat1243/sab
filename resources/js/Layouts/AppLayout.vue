@@ -1,5 +1,6 @@
 <template>
     <div class="min-h-screen bg-gray-100">
+        <jet-toast :toast="$page.toast" :popstate="$page.popstate"></jet-toast>
         <nav class="bg-white border-b border-gray-100">
             <!-- Primary Navigation Menu -->
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -20,11 +21,8 @@
                             <jet-nav-link :href="route('service.index')" :active="isRoute('service*')">
                                 Service
                             </jet-nav-link>
-                            <jet-nav-link :href="route('dashboard')" :active="isRoute('dashboard')">
+                            <jet-nav-link :href="route('project.index')" :active="isRoute('project*')">
                                 Project
-                            </jet-nav-link>
-                            <jet-nav-link :href="route('dashboard')" :active="isRoute('dashboard')">
-                                Gallery
                             </jet-nav-link>
                         </div>
                     </div>
@@ -91,11 +89,8 @@
                     <jet-responsive-nav-link :href="route('service.index')" :active="isRoute('service*')">
                         Service
                     </jet-responsive-nav-link>
-                    <jet-responsive-nav-link :href="route('dashboard')" :active="isRoute('dashboard')">
+                    <jet-responsive-nav-link :href="route('project.index')" :active="isRoute('project*')">
                         Project
-                    </jet-responsive-nav-link>
-                    <jet-responsive-nav-link :href="route('dashboard')" :active="isRoute('dashboard')">
-                        Gallery
                     </jet-responsive-nav-link>
                 </div>
 
@@ -116,11 +111,6 @@
                         <jet-responsive-nav-link :href="route('profile.show')" :active="route().current('profile.show')">
                             Profile
                         </jet-responsive-nav-link>
-
-                        <jet-responsive-nav-link :href="route('api-tokens.index')" :active="route().current('api-tokens.index')" v-if="$page.jetstream.hasApiFeatures">
-                            API Tokens
-                        </jet-responsive-nav-link>
-
                         <!-- Authentication -->
                         <form method="POST" @submit.prevent="logout">
                             <jet-responsive-nav-link as="button">
@@ -156,6 +146,7 @@
     import JetDropdownLink from '@/Jetstream/DropdownLink'
     import JetNavLink from '@/Jetstream/NavLink'
     import JetResponsiveNavLink from '@/Jetstream/ResponsiveNavLink'
+    import JetToast from '@/Jetstream/Toast'
 
     export default {
         components: {
@@ -164,6 +155,7 @@
             JetDropdownLink,
             JetNavLink,
             JetResponsiveNavLink,
+            JetToast
         },
 
         data() {

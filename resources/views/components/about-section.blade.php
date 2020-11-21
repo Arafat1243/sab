@@ -5,33 +5,10 @@
         <div class="design-arrow"></div>
     </div>
     <div class="my-7 px-10 flex flex-wrap justify-around items-center">
-        <img class="h-full w-full md:w-2/5 rounded shadow-2xl object-cover" src="{{asset('storage/ceo_img.jpg')}}" alt=""
+        <img class="min-h-80 w-full lg:w-2/5 rounded shadow-xl object-cover" src="{{asset($about->image_url)}}" alt="{{$about->image}}"
             srcset="">
         <div class="w-full lg:w-2/5 mt-7 lg:mt-0 text-justify">
-            Name of ceo <q class="font-bold italic">Yeasir arafat</q>.
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestiae, ut quas ab accusantium ex quo quidem
-            enim,
-            eaque
-            mollitia saepe, officia hic voluptatum dicta aperiam perspiciatis asperiores officiis excepturi quia.
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis quis nam id mollitia esse eius ut sed laborum
-            animi
-            ab
-            hic quos fuga, aut eveniet libero nemo officia quas in.
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam minus aliquam, in, fugiat necessitatibus
-            commodi
-            facilis
-            pariatur consectetur eveniet, consequatur sunt unde officia aliquid cupiditate odit ipsum vel aperiam
-            architecto?
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat, dolorum sequi consectetur earum tempora
-            repellendus
-            eaque nisi incidunt doloremque explicabo adipisci eos impedit laborum sapiente eum laudantium voluptatum
-            neque
-            nobis?
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Illum ut quos totam necessitatibus quibusdam
-            harum,
-            voluptatibus quisquam quod omnis nostrum eaque error doloribus, ipsum commodi provident dignissimos.
-            Laborum, culpa
-            adipisci?
+            {!! $about->about !!}
         </div>
     </div>
 </section>

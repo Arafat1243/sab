@@ -4,12 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
 
-class Service extends Model
+class OtherContent extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
+    /**
+     * Desibale created_at and updated_at
+     */
+    public $timestamps = false;
 
     /**
      * The attributes that are mass assignable.
@@ -17,17 +20,7 @@ class Service extends Model
      * @var array
      */
     protected $fillable = [
-        'title','discraption'
-    ];
-
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'created_at',
-        'updated_at',
+        'employee','client','whatweare','about'
     ];
 
     /**

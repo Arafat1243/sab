@@ -32,7 +32,7 @@
         </div>
 </div> --}}
 <nav id="lg-nav"
-    class="fixed top-0 w-full flex items-center justify-between flex-wrap text-white bg-gray-700 lg:bg-transparent px-8 lg:px-15 transition-all duration-150 ease-in z-40">
+    class="fixed top-0 w-full flex items-center justify-between flex-wrap text-gray-800 bg-white px-8 lg:px-15 transition-all duration-150 ease-in z-40">
     <div class="block lg:hidden">
         <button id="menu-toggle" class="flex items-center px-3 py-2 border rounded focus:outline-none">
             <svg class="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">

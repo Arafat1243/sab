@@ -2,10 +2,14 @@
 
 namespace App\View\Components;
 
+use App\Models\Service;
 use Illuminate\View\Component;
 
 class ServiceSection extends Component
 {
+
+    public $services;
+
     /**
      * Create a new component instance.
      *
@@ -14,6 +18,7 @@ class ServiceSection extends Component
     public function __construct()
     {
         //
+        $this->services = Service::all();
     }
 
     /**

@@ -6,14 +6,16 @@ use Illuminate\View\Component;
 
 class AboutSection extends Component
 {
+    public $about;
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($other)
     {
         //
+        $this->about = $other;
     }
 
     /**
