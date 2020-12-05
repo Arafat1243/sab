@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\OtherContent;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,7 +16,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    $other = OtherContent::first();
+    $other = Cache::remember('other-catch', 60 * 60 *12, function () {
+            return  OtherContent::first();
+        });
+    
     return view('home',compact('other'));
 });
 

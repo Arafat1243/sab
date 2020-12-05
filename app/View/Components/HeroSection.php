@@ -4,6 +4,7 @@ namespace App\View\Components;
 
 use App\Models\Project;
 use App\Models\Service;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\View\Component;
 
 class HeroSection extends Component
@@ -17,14 +18,16 @@ class HeroSection extends Component
     public function __construct()
     {
         //
-        Service::orderBy('created_at','DESC')->limit(3)->get(['id','image'])
-            ->map(function($item){
-                array_push($this->hero,$item->image_url);
+        Cache::remember('hero-image-cache', 60 * 60 *12, function () {
+            Service::orderBy('created_at','DESC')->limit(3)->get(['id','image'])
+                ->map(function($item){
+                    array_push($this->hero,$item->image_url);
             });
-        Project::orderBy('created_at','DESC')->limit(3)->get(['id','image'])
-            ->map(function($item){
-                array_push($this->hero,$item->image_url);
-            });
+            Project::orderBy('created_at','DESC')->limit(3)->get(['id','image'])
+                ->map(function($item){
+                    array_push($this->hero,$item->image_url);
+                });
+        });
     }
 
     /**

@@ -10,6 +10,10 @@
                 <img src="{{asset($item->image_url)}}" alt="{{$item->image}}" class="slider-item object-cover">
             @endforeach
         </div>
-        <input type="range" min="1" max="100" value="0" class="slider w-10/12 lg:w-2/5" id="myRange">
+        @if (count($project) > 3)
+            <input type="range" min="1" max="100" value="0" class="slider w-10/12 lg:w-2/5" id="myRange">
+        @else
+          <input type="range" min="1" max="100" value="0" class="slider lg:hidden w-10/12 lg:w-2/5" id="myRange">
+        @endif
     </div>
 </section>

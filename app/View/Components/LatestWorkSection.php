@@ -3,6 +3,7 @@
 namespace App\View\Components;
 
 use App\Models\Project;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\View\Component;
 
 class LatestWorkSection extends Component
@@ -16,7 +17,9 @@ class LatestWorkSection extends Component
     public function __construct()
     {
         //
-        $this->project = Project::orderBy('created_at','DESC')->limit(10)->get(['id','image']);
+        $this->project = Cache::remember('last-woerk-project', 60 * 60 *12, function () {
+            return Project::orderBy('created_at','DESC')->limit(10)->get(['id','image']);
+        });
     }
 
     /**

@@ -40,7 +40,7 @@
                 </div>
             </form>
         </div>
-        <div class="w-44 h-44 flex justify-center items-center my-7 lg:my-5">
+        <div class="w-40 h-40 lg:w-44 lg:h-44 flex justify-center items-center my-7 lg:my-5">
             <div id="qrcode"></div>
         </div>
         <div class="w-full mt-2">

@@ -60,7 +60,7 @@
                 $('#collaps-menu').toggleClass(['hidden','active']);
             });
             // latest work slide
-            $('#myRange').attr('max',$('.slider-item').length - 3)
+            $('#myRange').attr('max',$('.slider-item'))
             $('#myRange').on('input change', function(){
                 // console.log($(this).val());
                 let left = 0;
