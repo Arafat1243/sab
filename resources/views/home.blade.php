@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
 </head>
 
-<body class="overflow-x-hidden">
+<body class="overflow-x-hidden" onload="ready()">
     <!-- loading section -->
     <x-loading></x-loading>
     <!-- end loading section -->
@@ -49,18 +49,21 @@
         <!-- end section -->
     </div>
     <!-- Scripts -->
-    <script src="{{ mix('js/app.js') }}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js" defer="false"></script>
     <script src="{{mix('js/counter.js')}}"></script>
     <script src="{{asset('storage/qrcode.min.js')}}"></script>
     <script>
         let heroInterval = '';
-        $(document).ready(function(){
+        function ready (){
             // navbar toggle function
             $('#menu-toggle').on('click',function(){
                 $('#collaps-menu').toggleClass(['hidden','active']);
             });
             // latest work slide
-            $('#myRange').attr('max',$('.slider-item'))
+            if($('.slider-item').length > 3){
+                $('#myRange').removeClass('lg:hidden');
+            }
+            $('#myRange').attr('max',$('.slider-item').length);
             $('#myRange').on('input change', function(){
                 // console.log($(this).val());
                 let left = 0;
@@ -70,16 +73,16 @@
                     left = 0;
                 }
                 $('.scroll-content').css('margin-left', left)
-            })
+            });
 
             // qr code
             const qrcodeData = `
-            https://sab.com/,
+            {{route('home')}},
             contact number: +880 1700-00000,
-            mail: info@gmail.com
+            mail: {{env('MAIL_FROM_ADDRESS')}}
             `;
             let qrcode = new QRCode(document.getElementById("qrcode"));
-            qrcode.makeCode(qrcodeData)
+            qrcode.makeCode(qrcodeData);
             // loading screen
             const certerBar = $('#center-progress-bar > .bar')[0];
             let timeout = setInterval(() => {
@@ -98,7 +101,7 @@
                     $('#sb-loading-container').addClass('hidden');
                     $('#section-container').removeClass(['absolute' ,'inset-0','overflow-hidden']);
                         $('#section-container').addClass(['w-full' ,'h-screen']);
-                        let count = 0
+                        let count = 0;
                         heroInterval = setInterval(() => {
                             if(count >= ($('.hero-image').attr('data-img').split(',').length - 1)){
                                 count = 0;
@@ -131,21 +134,21 @@
                     }, 2000, 'swing');
                     hashTagActive = this.hash;
                     $('.section-ancor .nav-link').removeClass('active');
-                    $(this).addClass('active')
+                    $(this).addClass('active');
                 }
             });
 
             $('.feature-item .feature-item-title').on('click',function(e){
-                e.preventDefault()
-                $(this).parent().next().addClass('active')
+                e.preventDefault();
+                $(this).parent().next().addClass('active');
             });
-        });
+        }
         // hero slide
         function heroSlide(count){
             // console.log(count);
             let imgset = JSON.parse($('.hero-image').attr('data-img'))[count];
             if(imgset == undefined){
-                clearInterval(heroInterval)
+                clearInterval(heroInterval);
             }
             else{
                 $('.hero-image').css('background-image','url('+imgset+')');
@@ -153,7 +156,7 @@
         }
 
         function closeModal(){
-            $('.modal').removeClass('active')
+            $('.modal').removeClass('active');
         }
     </script>
 </body>

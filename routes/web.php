@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\OtherContent;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 
@@ -16,13 +17,22 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    $other = Cache::remember('other-catch', 60 * 60 *12, function () {
-            return  OtherContent::first();
-        });
-    
+    $other = OtherContent::first();
     return view('home',compact('other'));
-});
+})->name('home');
 
+Route::post('/contact',[\App\Http\Controllers\ContactFormController::class, 'contact'])->name('contact');
+Route::view('/services','service')->name('services');
+// clear route
+Route::get('/clear',function(){
+    Artisan::call('config:cache');
+    Artisan::call('config:clear');
+    Artisan::call('route:cache');
+    Artisan::call('route:clear');
+    Artisan::call('view:clear');
+    Artisan::call('storage:link');
+    return redirect()->route('home');
+});
 Route::prefix('admin')->middleware(['auth:sanctum', 'verified'])->group(function () {
 
     // dashboard

@@ -223,7 +223,7 @@ class ServiceController extends Controller
      * remove image from storage.
      *
      * @param  string $url
-     * @return void
+     * @return bool
      */
     protected function deleteImage(string $url){
         if(Storage::disk('public')->delete($url)){
@@ -231,4 +231,5 @@ class ServiceController extends Controller
         }
         throw new FileException('File not Found.');
     }
+
 }

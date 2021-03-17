@@ -2,5 +2,6 @@
     "/js/app.js": "/js/app.js",
     "/css/app.css": "/css/app.css",
     "/js/counter.js": "/js/counter.js",
+    "/js/main.js": "/js/main.js",
     "/js/waypoints.min.js": "/js/waypoints.min.js"
 }

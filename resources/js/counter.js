@@ -1,5 +1,7 @@
 require('./waypoints.min.js')
+import { main } from './main';
 import counterUp from 'counterup2'
+main('sab')
 const el = document.querySelectorAll('.counter')
 new Waypoint({
     element: document.querySelector('.project-count'),

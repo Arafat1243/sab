@@ -20,7 +20,7 @@ class OtherContent extends Model
      * @var array
      */
     protected $fillable = [
-        'employee','client','whatweare','about'
+        'employee','client','whatweare','about','contact'
     ];
 
     /**
@@ -40,5 +40,23 @@ class OtherContent extends Model
     public function getImageUrlAttribute()
     {
         return $this->attributes['image_url'] = Storage::disk('public')->url($this->image);
+    }
+    /**
+     * Get the administrator flag for the user.
+     *
+     * @return bool
+     */
+    public function setContactAttribute(array $value)
+    {
+        $this->attributes['contact'] = serialize($value);
+    }
+    /**
+     * Get the administrator flag for the user.
+     *
+     * @return bool
+     */
+    public function getContactAttribute($value)
+    {
+        return unserialize($value);
     }
 }

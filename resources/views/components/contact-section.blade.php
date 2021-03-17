@@ -13,29 +13,37 @@
                         d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
                 </svg>
             </div>
-            <form class="w-full lg:w-1/2" action="#" method="post">
+            <form class="w-full lg:w-1/2" action="{{route('contact')}}" method="post">
+                <x-jet-validation-errors class="mb-4" />
+                <div class="hidden bg-green-100 border-green-400 text-green-700 bg-red-100 border-red-400 text-red-700"></div>
+                @if (session()->has('contact_message'))
+                    <div class="border {{session()->get('contact_message')['class']}} px-4 py-3 rounded relative mb-4" role="alert">
+                        <span class="block sm:inline">{{session()->get('contact_message')['message']}}</span>
+                    </div>
+                @endif
+                @csrf
                 <div class="w-full px-3">
                     <input
                         class="input-field appearance-none block w-full bg-gray-100 text-gray-700 border rounded-3xl py-3 px-4 mb-3 leading-tight focus:outline-none"
-                        id="grid-first-name" type="text" placeholder="Jane">
+                        id="grid-first-name" name="name" type="text" value="{{old('name')}}" placeholder="Jane">
                 </div>
                 <div class="w-full px-3 mt-6">
                     <input
                         class="input-field appearance-none block w-full bg-gray-100 text-gray-700 border rounded-3xl py-3 px-4 mb-3 leading-tight focus:outline-none"
-                        id="grid-first-name" type="email" placeholder="example@gmail.com">
+                        id="grid-first-name" name="email" type="email" value="{{old('email')}}" placeholder="example@gmail.com">
                 </div>
                 <div class="w-full px-3 mt-6">
                     <input
                         class="input-field appearance-none block w-full bg-gray-100 text-gray-700 border rounded-3xl py-3 px-4 mb-3 leading-tight focus:outline-none"
-                        id="grid-first-name" type="text" placeholder="+880 1700-00000">
+                        id="grid-first-name" name="number" type="text" value="{{old('number')}}" placeholder="01700-00000">
                 </div>
                 <div class="w-full px-3 mt-6">
                     <textarea rows="5"
                         class="input-field appearance-none block w-full bg-gray-100 text-gray-700 border rounded-3xl py-3 px-4 mb-3 leading-tight focus:outline-none"
-                        id="grid-first-name" type="text" placeholder="Hey, example message"></textarea>
+                        id="grid-first-name" name="message" type="text" placeholder="Hey, example message">{{old('message')}}</textarea>
                 </div>
                 <div class="w-full flex justify-end items-center pr-5 mt-6">
-                    <button type="button" class="py-2 px-4 bg-red-500 text-white rounded-3xl focus:outline-none">Send
+                    <button type="submit" class="py-2 px-4 bg-red-500 text-white rounded-3xl focus:outline-none">Send
                         Mail</button>
                 </div>
             </form>

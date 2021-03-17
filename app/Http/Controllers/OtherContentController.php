@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\HttpFoundation\File\Exception\NoFileException;
 use Throwable;
 
 class OtherContentController extends Controller
@@ -164,7 +163,7 @@ class OtherContentController extends Controller
             dd($err->getMessage());
         }
     }
-
+    
     /**
      * remove image from storage.
      *

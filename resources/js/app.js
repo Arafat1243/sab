@@ -1,5 +1,5 @@
 require('./bootstrap');
-
+import { main } from './main';
 import Vue from 'vue';
 
 import { InertiaApp } from '@inertiajs/inertia-vue';
@@ -39,5 +39,6 @@ new Vue({
         window.addEventListener('popstate', () => {
             this.$page.popstate = true
         })
+        main('sab');
     }
 }).$mount(app);

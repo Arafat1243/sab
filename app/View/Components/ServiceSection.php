@@ -3,26 +3,30 @@
 namespace App\View\Components;
 
 use App\Models\Service;
-use Illuminate\Support\Facades\Cache;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\View\Component;
 
 class ServiceSection extends Component
 {
 
-    public $services;
+    public Collection $services;
 
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(bool $home = true)
     {
         //
-        $this->services = Cache::remember('service-cache', 60 * 60 *12, function () {
-            return Service::all();
-        });
-        // dd($this->services);
+        if($home){
+            $this->services =  Service::orderBy('updated_at', 'desc')
+            ->limit(10)
+            ->get();
+        }else{
+            $this->services = Service::orderBy('updated_at', 'desc')
+            ->get();
+        }
     }
 
     /**
